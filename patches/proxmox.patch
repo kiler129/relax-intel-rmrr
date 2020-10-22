@@ -1,0 +1,21 @@
+--- a/Makefile
++++ b/Makefile
+@@ -11,7 +11,7 @@
+ KERNEL_MAJMIN=$(KERNEL_MAJ).$(KERNEL_MIN)
+ KERNEL_VER=$(KERNEL_MAJMIN).$(KERNEL_PATCHLEVEL)
+
+-EXTRAVERSION=-${KREL}-pve
++EXTRAVERSION=-${KREL}-pve-relaxablermrr
+ KVNAME=${KERNEL_VER}${EXTRAVERSION}
+ PACKAGE=pve-kernel-${KVNAME}
+ HDRPACKAGE=pve-headers-${KVNAME}
+--- a/debian/scripts/find-firmware.pl
++++ b/debian/scripts/find-firmware.pl
+@@ -8,7 +8,7 @@
+
+ die "no such directory" if ! -d $dir;
+
+-die "strange directory name: $dir" if $dir !~ m|^(.*/)?(5.\d.\d+\-\d+\-pve)(/+)?$|;
++#die "strange directory name: $dir" if $dir !~ m|^(.*/)?(5.\d.\d+\-\d+\-pve)(/+)?$|;
+
+ my $apiver = $2;
