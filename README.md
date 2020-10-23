@@ -43,6 +43,8 @@ highly recommended.
 5. [Acknowledgments & References](README.md#acknowledgments--references)
 6. [License](README.md#license)
 
+---
+
 ### Installation
 
 #### Proxmox - premade packages
@@ -55,6 +57,8 @@ described here. Thus, I publish precompiled packages.
 4. *(OPTIONAL)* Verify the kernel works with the patch disabled by rebooting and checking if `uname -r` shows a version 
    ending with `-pve-relaxablermrr`
 5. [Configure the kernel](README.md#configuration)
+
+---
 
 #### Proxmox - building from sources
 If you're running a version of Proxmox with [no packages available](README.md#proxmox---premade-packages) you can 
@@ -92,6 +96,8 @@ dpkg -i *.deb
    ending with `-pve-relaxablermrr`
 8. [Configure the kernel](README.md#configuration)
 
+---
+
 #### Other distros
 1. Download kernel sources appropriate for your distribution
 2. Apply an appropriate patch to the source tree
@@ -101,6 +107,8 @@ dpkg -i *.deb
 3. Follow your distro kernel compilation & installation instruction
 
 ***TODO:*** *Add automation script*
+
+---
 
 ### Configuration
 By default, after the kernel is installed, the patch will be *inactive* (i.e. the kernel will behave like this patch was
@@ -123,6 +131,8 @@ root@sandbox:~# dmesg | grep 'Intel-IOMMU'
 root@sandbox:~# 
 ```
 
+---
+
 ### Disclaimers
  - I'm not a kernel programmer by any means, so if I got something horribly wrong correct me please :)
  - This path should be safe, as long as you don't try to remap devices which are used by the IPMI/BIOS, e.g.
@@ -133,6 +143,8 @@ root@sandbox:~#
    (which Linux already violates anyway, but this is increasing the scope). It may cause crashes or major instabilities.
    You've been warned.
 
+---
+
 ### Acknowledgments & References
  - [Comment-out hack research by dschense](https://forum.proxmox.com/threads/hp-proliant-microserver-gen8-raidcontroller-hp-p410-passthrough-probleme.30547/post-155675)
  - [Proxmox kernel compilation & patching by Feni](https://forum.proxmox.com/threads/compile-proxmox-ve-with-patched-intel-iommu-driver-to-remove-rmrr-check.36374/) 
@@ -140,6 +152,8 @@ root@sandbox:~#
  - [RedHat RMRR EXCLUSION Whitepaper](https://access.redhat.com/sites/default/files/attachments/rmrr-wp1.pdf)
  - [Intel® Virtualization Technology for Directed I/O (VT-d)](https://software.intel.com/content/www/us/en/develop/articles/intel-virtualization-technology-for-directed-io-vt-d-enhancing-intel-platforms-for-efficient-virtualization-of-io-devices.html)
  - [Intel® Virtualization Technology for Directed I/O Architecture Specification](https://software.intel.com/content/www/us/en/develop/download/intel-virtualization-technology-for-directed-io-architecture-specification.html)
+ 
+--- 
  
 ### License
 This work (patches & docs) is dual-licensed under MIT and GPL 2.0 (or any later version), which should be treated as an 
