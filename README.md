@@ -66,32 +66,32 @@ compile the kernel yourself using patches provided.
 
 1. Prepare [at least 60GB of free disk space](https://forum.level1techs.com/t/linux-debian-proxmox-recompile-needing-over-60gb-and-counting-to-compile/160009)
 2. Install required packages:
-```shell script
-apt update
-apt install git nano screen patch fakeroot build-essential devscripts libncurses5 libncurses5-dev libssl-dev bc flex bison libelf-dev libaudit-dev libgtk2.0-dev libperl-dev asciidoc xmlto gnupg gnupg2 rsync lintian debhelper libdw-dev libnuma-dev libslang2-dev sphinx-common asciidoc-base automake cpio dh-python file gcc kmod libiberty-dev libpve-common-perl libtool perl-modules python-minimal sed tar zlib1g-dev lz4
-```
+    ```shell script
+    apt update
+    apt install git nano screen patch fakeroot build-essential devscripts libncurses5 libncurses5-dev libssl-dev bc flex bison libelf-dev libaudit-dev libgtk2.0-dev libperl-dev asciidoc xmlto gnupg gnupg2 rsync lintian debhelper libdw-dev libnuma-dev libslang2-dev sphinx-common asciidoc-base automake cpio dh-python file gcc kmod libiberty-dev libpve-common-perl libtool perl-modules python-minimal sed tar zlib1g-dev lz4
+    ```
 3. Download everything:
-```shell script
-mkdir new-kernel ; cd new-kernel
-git clone --depth=1 git://git.proxmox.com/git/pve-kernel.git
-git clone --depth=1 https://github.com/kiler129/relax-intel-rmrr.git
-```
+    ```shell script
+    mkdir new-kernel ; cd new-kernel
+    git clone --depth=1 git://git.proxmox.com/git/pve-kernel.git
+    git clone --depth=1 https://github.com/kiler129/relax-intel-rmrr.git
+    ```
 4. Add kernel patch & patch the toolchain
-```shell script
-cd pve-kernel
-cp ../relax-intel-rmrr/patches/add-relaxable-rmrr-below-5_8.patch ./patches/kernel/CUSTOM-add-relaxable-rmrr.patch
-patch -p1 < ../relax-intel-rmrr/patches/proxmox.patch
-```
+    ```shell script
+    cd pve-kernel
+    cp ../relax-intel-rmrr/patches/add-relaxable-rmrr-below-5_8.patch ./patches/kernel/CUSTOM-add-relaxable-rmrr.patch
+    patch -p1 < ../relax-intel-rmrr/patches/proxmox.patch
+    ```
 5. Compile the kernel
-```shell script
-make
-```
+    ```shell script
+    make
+    ```
 This step will take a lot of time (30m-3h depending on your machine).
 
 6. Install new kernel:
-```shell script
-dpkg -i *.deb
-```
+    ```shell script
+    dpkg -i *.deb
+    ```
 7. *(OPTIONAL)* Verify the kernel works with the patch disabled by rebooting and checking if `uname -r` shows a version 
    ending with `-pve-relaxablermrr`
 8. [Configure the kernel](README.md#configuration)
@@ -125,11 +125,11 @@ In most distros (including Proxmox) you do this by:
 
 To verify if the the patch is active execute `dmesg | grep 'Intel-IOMMU'` after reboot. You should see a result similar
  to this:
-```
-root@sandbox:~# dmesg | grep 'Intel-IOMMU'
-[    0.050195] DMAR: Intel-IOMMU: assuming all RMRRs are relaxable. This can lead to instability or data loss
-root@sandbox:~# 
-```
+    ```
+    root@sandbox:~# dmesg | grep 'Intel-IOMMU'
+    [    0.050195] DMAR: Intel-IOMMU: assuming all RMRRs are relaxable. This can lead to instability or data loss
+    root@sandbox:~# 
+    ```
 
 ---
 
