@@ -131,11 +131,12 @@ In most distros (including Proxmox) you do this by:
 
 To verify if the the patch is active execute `dmesg | grep 'Intel-IOMMU'` after reboot. You should see a result similar
  to this:
-    ```
-    root@sandbox:~# dmesg | grep 'Intel-IOMMU'
-    [    0.050195] DMAR: Intel-IOMMU: assuming all RMRRs are relaxable. This can lead to instability or data loss
-    root@sandbox:~# 
-    ```
+ 
+```
+root@sandbox:~# dmesg | grep 'Intel-IOMMU'
+[    0.050195] DMAR: Intel-IOMMU: assuming all RMRRs are relaxable. This can lead to instability or data loss
+root@sandbox:~# 
+```
 
 ---
 
