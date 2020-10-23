@@ -95,8 +95,9 @@ dpkg -i *.deb
 #### Other distros
 1. Download kernel sources appropriate for your distribution
 2. Apply an appropriate patch to the source tree
-  - For Linux 3.17 - 5.7: `patch -p1 < ../patches/add-relaxable-rmrr-below-5_8.patch`
-  - For Linux >=5.8: `patch -p1 < ../patches/add-relaxable-rmrr-5_8_and_up.patch`
+    - Go to the folder with your kernel source
+    - For Linux 3.17 - 5.7: `patch -p1 < ../patches/add-relaxable-rmrr-below-5_8.patch`
+    - For Linux >=5.8: `patch -p1 < ../patches/add-relaxable-rmrr-5_8_and_up.patch`
 3. Follow your distro kernel compilation & installation instruction
 
 ***TODO:*** *Add automation script*
@@ -108,9 +109,9 @@ never applied). To activate it you have to add `intel_iommu=relax_rmrr` to your 
 In most distros (including Proxmox) you do this by:
 1. Opening `/etc/default/grub` (e.g. using `nano /etc/default/grub`)
 2. Editing the `GRUB_CMDLINE_LINUX_DEFAULT` to include the option:
-  - Example of old line: `GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on iommu=pt intremap=no_x2apic_optout"`
-  - Example of new line: `GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on,relax_rmrr iommu=pt intremap=no_x2apic_optout"`
-  - *Side note: these are actually options which will make your PCI passthrough work and do so efficiently*
+    - Example of old line: `GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on iommu=pt intremap=no_x2apic_optout"`
+    - Example of new line: `GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on,relax_rmrr iommu=pt intremap=no_x2apic_optout"`
+    - *Side note: these are actually options which will make your PCI passthrough work and do so efficiently*
 3. Running `update-grub`
 4. Rebooting
 
