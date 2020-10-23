@@ -117,8 +117,14 @@ never applied). To activate it you have to add `intel_iommu=relax_rmrr` to your 
 In most distros (including Proxmox) you do this by:
 1. Opening `/etc/default/grub` (e.g. using `nano /etc/default/grub`)
 2. Editing the `GRUB_CMDLINE_LINUX_DEFAULT` to include the option:
-    - Example of old line: `GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on iommu=pt intremap=no_x2apic_optout"`
-    - Example of new line: `GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on,relax_rmrr iommu=pt intremap=no_x2apic_optout"`
+    - Example of old line:   
+        ```
+        GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on iommu=pt intremap=no_x2apic_optout"
+        ```
+    - Example of new line:
+        ```
+        GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on,relax_rmrr iommu=pt intremap=no_x2apic_optout"
+        ```
     - *Side note: these are actually options which will make your PCI passthrough work and do so efficiently*
 3. Running `update-grub`
 4. Rebooting
