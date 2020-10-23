@@ -108,6 +108,8 @@ remapped the guest OS talks to the hardware like it was really under some physic
 the [IOMMU](https://en.wikipedia.org/wiki/Input–output_memory_management_unit) moves the reserved region aperture 
 somewhere else in the address space. This is *usually* fine.
 
+---
+
 #### RMRR - the monster in a closet
 While both AMD and Intel allow for [IOMMU](https://en.wikipedia.org/wiki/Input–output_memory_management_unit) remapping 
 device's memory, Intel had an idea to introduce RMRR (Reserved Memory Region Reporting). In essence the firmware/BIOS 
