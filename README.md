@@ -1,49 +1,65 @@
 # 🍻 Relaxed RMRR Mapping for Linux 3.17+
-## Use PCI passthrough on broken platforms
+## 🐧💨 Now you can use PCI passthrough on broken platforms
 
 ### TL;DR
-When you try to use PCI/PCIe passthrough in KVM/QEMU (and maybe others) you get:
+When you try to use PCI/PCIe passthrough in KVM/QEMU/Proxmox you get:
 ```
 vfio-pci 0000:01:00.1: Device is ineligible for IOMMU domain attach due to platform RMRR requirement. Contact your platform vendor.
 ```
 followed by `vfio: failed to set iommu for container: Operation not permitted`.
 
-This kernel patch fixes the problem **on kernels v3.17+** (tested up to 5.9.1). You can skip to 
-"[Installation](#installation)" section if you don't care about the rest. Reading of "[Disclaimers](#disclaimers)" 
-section to understand the risks, and "[Solutions & hacks](deep-dive.md#other-solutions--hacks)" to get the idea of different alternatives is highly recommended.
+This kernel patch fixes the problem **on kernels v3.17 and up** (tested up to 5.9.1). You can skip to "[Installation](README.md#installation)" 
+section if you don't care about the rest. Reading of "[Disclaimers](README.md#disclaimers)" section to understand the 
+risks, and "[Solutions & hacks](deep-dive.md#other-solutions--hacks)" to get the idea of different alternatives is 
+highly recommended.
 
 ---
 
 ### Table of Contents
 1. [Installation](README.md#installation)
-  - [Proxmox](README.md#proxmox)
-  - [Other distros](README.md#other-distros)
+    - [Proxmox - premade packages](README.md#proxmox---premade-packages)
+    - [Proxmox - building from sources](README.md#proxmox---building-from-sources)
+    - [Other distros](README.md#other-distros)
 2. [Configuration](README.md#configuration)
 3. [Deep Dive](deep-dive.md) - *a throughout research on the problem written for mortals*
-  - [Technical details](deep-dive.md#technical-details)
-    - [How virtual machines use memory?](deep-dive.md#how-virtual-machines-use-memory)
-    - [Why do we need VT-d / AMD-Vi?](deep-dive.md#why-do-we-need-vt-d--amd-vi)
-    - [How PCI/PCIe actually work?](deep-dive.md#how-pcipcie-actually-work)
-    - [RMRR - the monster in a closet](deep-dive.md#rmrr---the-monster-in-a-closet)
-    - [What vendors did wrong?](deep-dive.md#what-vendors-did-wrong)
-  - [Other solutions & hacks](deep-dive.md#other-solutions--hacks)
-    - [Contact your platform vendor](deep-dive.md#contact-your-platform-vendor)
-    - [Use OS which ignores RMRRs](deep-dive.md#use-os-which-ignores-rmrrs)
-    - [Attempt HPE's pseudofix (if you use HP)](deep-dive.md#attempt-hpes-pseudofix-if-you-use-hp)
-    - [The comment-the-error-out hack (v3.17 - 5.3)](deep-dive.md#the-comment-the-error-out-hack-v317---53)
-    - [Long-term solution - utilizing relaxable reservation regions (>=3.17)](deep-dive.md#long-term-solution---utilizing-relaxable-reservation-regions-317)
-      - [Why commenting-out the error is a bad idea](deep-dive.md#why-commenting-out-the-error-is-a-bad-idea)
-      - [The kernel moves on quickly](deep-dive.md#the-kernel-moves-on-quickly)
-      - [What this patch actually does](deep-dive.md#what-this-patch-actually-does)
-      - [Why kernel patch and not a loadable module?](deep-dive.md#why-kernel-patch-and-not-a-loadable-module)
-    - [The future](deep-dive.md#the-future)    
+    - [Technical details](deep-dive.md#technical-details)
+        - [How virtual machines use memory?](deep-dive.md#how-virtual-machines-use-memory)
+        - [Why do we need VT-d / AMD-Vi?](deep-dive.md#why-do-we-need-vt-d--amd-vi)
+        - [How PCI/PCIe actually work?](deep-dive.md#how-pcipcie-actually-work)
+        - [RMRR - the monster in a closet](deep-dive.md#rmrr---the-monster-in-a-closet)
+        - [What vendors did wrong?](deep-dive.md#what-vendors-did-wrong)
+    - [Other solutions & hacks](deep-dive.md#other-solutions--hacks)
+        - [Contact your platform vendor](deep-dive.md#contact-your-platform-vendor)
+        - [Use OS which ignores RMRRs](deep-dive.md#use-os-which-ignores-rmrrs)
+        - [Attempt HPE's pseudofix (if you use HP)](deep-dive.md#attempt-hpes-pseudofix-if-you-use-hp)
+        - [The comment-the-error-out hack (v3.17 - 5.3)](deep-dive.md#the-comment-the-error-out-hack-v317---53)
+        - [Long-term solution - utilizing relaxable reservation regions (>=3.17)](deep-dive.md#long-term-solution---utilizing-relaxable-reservation-regions-317)
+          - [Why commenting-out the error is a bad idea](deep-dive.md#why-commenting-out-the-error-is-a-bad-idea)
+          - [The kernel moves on quickly](deep-dive.md#the-kernel-moves-on-quickly)
+          - [What this patch actually does](deep-dive.md#what-this-patch-actually-does)
+          - [Why kernel patch and not a loadable module?](deep-dive.md#why-kernel-patch-and-not-a-loadable-module)
+        - [The future](deep-dive.md#the-future)    
 4. [Disclaimers](README.md#disclaimers)
 5. [Acknowledgments & References](README.md#acknowledgments--references)
 6. [License](README.md#license)
 
 ### Installation
 
-#### Proxmox
+#### Proxmox - premade packages
+As I believe in *[eating your own dog food](https://en.wikipedia.org/wiki/Eating_your_own_dog_food)* I run the kernel
+described here. Thus, I publish precompiled packages.
+
+1. Go to the [releases tab](https://github.com/kiler129/relax-intel-rmrr/releases/) and pick appropriate packages
+2. Download all `*.deb`s packages to the server (you can copy links and use `wget https://...` on the server itself)
+3. Install all using `dpkg -i *.deb` in the folder where you downloaded the debs
+4. *(OPTIONAL)* Verify the kernel works with the patch disabled by rebooting and checking if `uname -r` shows a version 
+   ending with `-pve-relaxablermrr`
+5. [Configure the kernel](README.md#configuration)
+
+#### Proxmox - building from sources
+If you're running a version of Proxmox with [no packages available](README.md#proxmox---premade-packages) you can 
+compile the kernel yourself using patches provided.
+
 1. Prepare [at least 60GB of free disk space](https://forum.level1techs.com/t/linux-debian-proxmox-recompile-needing-over-60gb-and-counting-to-compile/160009)
 2. Install required packages:
 ```shell script
@@ -67,12 +83,14 @@ patch -p1 < ../relax-intel-rmrr/patches/proxmox.patch
 make
 ```
 This step will take a lot of time (30m-3h depending on your machine).
+
 6. Install new kernel:
 ```shell script
 dpkg -i *.deb
 ```
-7. (OPTIONAL) Verify the kernel works with the patch disabled by rebooting and checking if `uname -r` shows a version 
+7. *(OPTIONAL)* Verify the kernel works with the patch disabled by rebooting and checking if `uname -r` shows a version 
    ending with `-pve-relaxablermrr`
+8. [Configure the kernel](README.md#configuration)
 
 #### Other distros
 1. Download kernel sources appropriate for your distribution
@@ -85,7 +103,7 @@ dpkg -i *.deb
 
 ### Configuration
 By default, after the kernel is installed, the patch will be *inactive* (i.e. the kernel will behave like this patch was
-never applied). To activate it you have to add include `intel_iommu=relax_rmrr` in your Linux boot args.
+never applied). To activate it you have to add `intel_iommu=relax_rmrr` to your Linux boot args.
 
 In most distros (including Proxmox) you do this by:
 1. Opening `/etc/default/grub` (e.g. using `nano /etc/default/grub`)
@@ -123,5 +141,5 @@ root@sandbox:~#
  - [Intel® Virtualization Technology for Directed I/O Architecture Specification](https://software.intel.com/content/www/us/en/develop/download/intel-virtualization-technology-for-directed-io-architecture-specification.html)
  
 ### License
-This work is dual-licensed under MIT and GPL 2.0 (or any later version), which should be treated as an equivalent of
-Linux `Dual MIT/GPL`.
+This work (patches & docs) is dual-licensed under MIT and GPL 2.0 (or any later version), which should be treated as an 
+equivalent of Linux `Dual MIT/GPL` (i.e. pick a license you prefer).
