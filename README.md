@@ -104,7 +104,9 @@ This step will take a lot of time (30m-3h depending on your machine).
     - Go to the folder with your kernel source
     - For Linux 3.17 - 5.7: `patch -p1 < ../patches/add-relaxable-rmrr-below-5_8.patch`
     - For Linux >=5.8: `patch -p1 < ../patches/add-relaxable-rmrr-5_8_and_up.patch`
-3. Follow your distro kernel compilation & installation instruction
+3. Follow your distro kernel compilation & installation instruction:
+    - [Debian](https://wiki.debian.org/BuildADebianKernelPackage)
+    - [Ubuntu](https://wiki.ubuntu.com/Kernel/BuildYourOwnKernel)
 
 ***TODO:*** *Add automation script*
 
