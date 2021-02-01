@@ -73,7 +73,7 @@ compile the kernel yourself using patches provided.
 3. Download everything:
     ```shell script
     mkdir proxmox-kernel ; cd proxmox-kernel
-    git clone --depth=1 git://git.proxmox.com/git/pve-kernel.git
+    git clone --depth=1 -b pve-kernel-5.4 git://git.proxmox.com/git/pve-kernel.git
     git clone --depth=1 https://github.com/kiler129/relax-intel-rmrr.git
     ```
 4. Add kernel patch & patch the toolchain
