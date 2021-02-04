@@ -62,7 +62,7 @@ described here. Thus, I publish precompiled packages.
 
 #### Proxmox - building from sources (advanced)
 If you're running a version of Proxmox with [no packages available](README.md#proxmox---premade-packages-easy) you can
-[compile the kernel yourself using patches provided](build/proxmox/README.md).
+[compile the kernel yourself using patches provided](build/proxmox/).
 
 ---
 

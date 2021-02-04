@@ -39,6 +39,7 @@ This is mostly intended for building packages for later use (and/or when you don
 #### Prerequisites
 1. Docker installed (tested on macOS & Debian 10)
 2. ~30GB of free space
+3. Copy of `Dockerfile` from `build/proxmox` (present alongside this `README`)
 
 #### Steps
 
