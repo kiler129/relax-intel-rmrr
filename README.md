@@ -17,8 +17,8 @@ highly recommended.
 
 ### Table of Contents
 1. [Installation](README.md#installation)
-    - [Proxmox - premade packages](README.md#proxmox---premade-packages)
-    - [Proxmox - building from sources](README.md#proxmox---building-from-sources)
+    - [Proxmox - premade packages](README.md#proxmox---premade-packages-easy)
+    - [Proxmox - building from sources](README.md#proxmox---building-from-sources-advanced)
     - [Other distros](README.md#other-distros)
 2. [Configuration](README.md#configuration)
 3. [Deep Dive](deep-dive.md) - *a throughout research on the problem written for mortals*
