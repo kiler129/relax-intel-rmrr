@@ -17,7 +17,7 @@ guide if you want to build packages in an isolated environment.
 3. ~30GB of free space
 
 #### Steps
-1. Download the [build script](build.sh) (e.g. use `wget https://raw.githubusercontent.com/kiler129/relax-intel-rmrr/build/proxmox/build.sh`)
+1. Download the [build script](build.sh) (e.g. use `wget https://raw.githubusercontent.com/kiler129/relax-intel-rmrr/master/build/proxmox/build.sh`)
 2. Run the [`build.sh`](build.sh) script from terminal:  
    `RMRR_AUTOINSTALL=1 bash ./build.sh`  
    <small>*You can also manually execute commands in the script step-by-step. To facilitate that the script contains 
