@@ -50,6 +50,9 @@ This is mostly intended for building packages for later use (and/or when you don
 3. Copy debs *(it will give you `debs` folder)*:
    `docker cp build-cont:/build/proxmox-kernel/debs ./`
 4. Cleanup image & dummy container:  
-   `docker rmi -f build-img`
+   ```
+   docker rm -f build-cont
+   docker rmi -f build-img
+   ```
 
 Now you can [install debs like you would premade packages](../../README.md#proxmox---premade-packages-easy).
