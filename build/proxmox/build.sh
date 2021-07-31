@@ -61,21 +61,21 @@ cd proxmox-kernel
 
 # Clone official Proxmox kernel repo & Relaxed RMRR Mapping patch
 echo "Step 2.1: Downloading Proxmox kernel toolchain & patches"
-git clone --depth=1 -b pve-kernel-5.4 git://git.proxmox.com/git/pve-kernel.git
+git clone --depth=1 -b buster-pve-kernel-5.11 git://git.proxmox.com/git/pve-kernel.git
 git clone --depth=1 https://github.com/kiler129/relax-intel-rmrr.git
 
 # Go to the actual Proxmox toolchain
 cd pve-kernel
 
-# (OPTIONAL) Download flat copy of Ubuntu Focal kernel submodule
+# (OPTIONAL) Download flat copy of Ubuntu hirsute kernel submodule
 #  If you skip this the "make" of Proxmox kernel toolchain will download a copy (a Proxmox kernel is based on Ubuntu
-#  Focal kernel). However, it will download it with the whole history etc which takes A LOT of space (and time). This
+#  hirsute kernel). However, it will download it with the whole history etc which takes A LOT of space (and time). This
 #  bypasses the process safely.
 # This curl skips certificate validation because Proxmox GIT WebUI doesn't send Let's Encrypt intermediate cert
 echo "Step 2.2: Downloading base kernel"
-curl -k "https://git.proxmox.com/?p=mirror_ubuntu-focal-kernel.git;a=snapshot;h=$(git submodule status submodules/ubuntu-focal | cut -c 2-41);sf=tgz" --output kernel.tgz
-tar -xf kernel.tgz -C submodules/ubuntu-focal/ --strip 1
-rm kernel.tgz
+# curl -k "https://git.proxmox.com/?p=mirror_ubuntu-hirsute-kernel.git;a=snapshot;h=$(git submodule status submodules/ubuntu-hirsute | cut -c 2-41);sf=tgz" --output kernel.tgz
+# tar -xf kernel.tgz -C submodules/ubuntu-hirsute/ --strip 1
+# rm kernel.tgz
 
 
 
@@ -83,7 +83,9 @@ echo '###########################################################'
 echo '################# STEP 3 - CREATE KERNEL ##################'
 echo '###########################################################'
 echo "Step 3.0: Applying patches"
-cp ../relax-intel-rmrr/patches/add-relaxable-rmrr-below-5_8.patch ./patches/kernel/CUSTOM-add-relaxable-rmrr.patch
+#cp ../relax-intel-rmrr/patches/add-relaxable-rmrr-below-5_8.patch ./patches/kernel/CUSTOM-add-relaxable-rmrr.patch
+cp /build/add-relaxable-rmrr-5_11_and_up.patch ./patches/kernel/CUSTOM-add-relaxable-rmrr.patch
+cp /build/proxmox.patch ../relax-intel-rmrr/patches/proxmox.patch
 patch -p1 < ../relax-intel-rmrr/patches/proxmox.patch
 
 
