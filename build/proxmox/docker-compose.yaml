@@ -1,0 +1,7 @@
+version: '3'
+services:
+  build-cont:
+    image: build-img
+    build: .
+    stdin_open: true
+    tty: true
