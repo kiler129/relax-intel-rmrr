@@ -25,10 +25,6 @@ RUN TEMP_DEB="$(mktemp)" && \
  rm -f "$TEMP_DEB" 
 
 
-COPY build.sh /build/build.sh
+COPY *.sh /build/
 
-COPY add-relaxable-rmrr-5_11_and_up.patch /build/add-relaxable-rmrr-5_11_and_up.patch
-COPY proxmox.patch /build/proxmox.patch
-
-
-RUN bash /build/build.sh
+RUN bash /build/build7.sh
