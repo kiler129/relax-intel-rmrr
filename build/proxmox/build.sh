@@ -37,8 +37,9 @@ else
   echo "Step 1.0: Adding Proxmox apt repository..."
   apt -y update
   apt -y install gnupg
-  apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7BF2812E8A6E88E0
-  echo 'deb http://download.proxmox.com/debian/pve buster pve-no-subscription' > /etc/apt/sources.list.d/pve.list
+  #apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7BF2812E8A6E88E0
+  wget https://enterprise.proxmox.com/debian/proxmox-release-bullseye.gpg -O /etc/apt/trusted.gpg.d/proxmox-release-bullseye.gpg
+  echo 'deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription' > /etc/apt/sources.list.d/pve.list
 fi
 
 # Install all packages required to build the kernel & create *.deb packages for installation
@@ -61,8 +62,8 @@ cd proxmox-kernel
 
 # Clone official Proxmox kernel repo & Relaxed RMRR Mapping patch
 echo "Step 2.1: Downloading Proxmox kernel toolchain & patches"
-git clone --depth=1 -b pve-kernel-5.4 git://git.proxmox.com/git/pve-kernel.git
-git clone --depth=1 https://github.com/kiler129/relax-intel-rmrr.git
+git clone --depth=1 -b pve-kernel-5.11 git://git.proxmox.com/git/pve-kernel.git
+git clone --depth=1 https://github.com/MichaelTrip/relax-intel-rmrr.git
 
 # Go to the actual Proxmox toolchain
 cd pve-kernel
