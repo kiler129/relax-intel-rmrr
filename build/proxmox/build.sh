@@ -63,7 +63,7 @@ apt -y update
 apt -y install git nano screen patch fakeroot build-essential devscripts libncurses5 libncurses5-dev libssl-dev bc \
  flex bison libelf-dev libaudit-dev libgtk2.0-dev libperl-dev asciidoc xmlto gnupg gnupg2 rsync lintian debhelper \
  libdw-dev libnuma-dev libslang2-dev sphinx-common asciidoc-base automake cpio dh-python file gcc kmod libiberty-dev \
- libpve-common-perl libtool perl-modules python3-minimal sed tar zlib1g-dev lz4 curl zstd
+ libpve-common-perl libtool perl-modules python3-minimal sed tar zlib1g-dev lz4 curl zstd dwarves
 
 
 
