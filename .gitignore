@@ -1,1 +1,3 @@
 proxmox-kernel/
+**/*.deb
+tmp/*
